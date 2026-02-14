@@ -1,377 +1,377 @@
-<html lang="en"><head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>For My Love</title>
-  <style>
-    :root {
-      --pink: #ff4d88;
-      --rose: #ff6fa1;
-      --soft: #ffe4ec;
-      --bg1: #ff9ec7;
-      --bg2: #ffd0e1;
-      --text: #3b0a2a;
-      --white: #ffffff;
-    }
-    * { box-sizing: border-box }
-    html, body { height: 100% }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text);
-      background: radial-gradient(1200px 600px at 10% 10%, var(--bg1), transparent) no-repeat,
-                  radial-gradient(1200px 600px at 90% 90%, var(--bg2), transparent) no-repeat,
-                  linear-gradient(180deg, #fff5f9, #ffeaf2 40%, #fff6fa);
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-    }
-    .container {
-      position: relative;
-      width: min(900px, 92vw);
-      height: min(680px, 88vh);
-      border-radius: 28px;
-      background: rgba(255,255,255,0.7);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 20px 50px rgba(255, 77, 136, 0.25);
-      overflow: hidden;
-    }
-    .header {
-      position: absolute;
-      inset: 24px 24px auto 24px;
-      padding: 20px 22px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.85);
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-    }
-    .heart-logo {
-      width: 40px;
-      height: 40px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--rose), var(--pink));
-      color: #fff;
-      font-size: 22px;
-    }
-    .headline {
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: 0.3px;
-    }
-    .subtitle {
-      position: absolute;
-      left: 24px;
-      bottom: 24px;
-      right: 24px;
-      padding: 16px 18px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.75);
-      text-align: center;
-      font-size: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-    }
-    .hearts {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .heart {
-      position: absolute;
-      color: var(--rose);
-      opacity: 0.2;
-      font-size: 22px;
-      animation: floatUp linear infinite;
-      transform: translateY(100vh);
-    }
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(0.8) rotate(0deg); opacity: 0 }
-      15% { opacity: 0.3 }
-      50% { opacity: 0.35 }
-      100% { transform: translateY(-20vh) scale(1.1) rotate(12deg); opacity: 0 }
-    }
-    .modal-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(59,10,42,0.15);
-      display: grid;
-      place-items: center;
-    }
-    .modal {
-      width: min(560px, 92vw);
-      border-radius: 22px;
-      background: #fff;
-      box-shadow: 0 30px 70px rgba(59,10,42,0.25);
-      padding: 28px 28px 34px;
-      position: relative;
-    }
-    .modal h1 {
-      margin: 0 0 12px;
-      font-size: 28px;
-    }
-    .modal p {
-      margin: 0 0 22px;
-      font-size: 16px;
-      color: #7a2b55;
-    }
-    .actions {
-      position: relative;
-      height: 110px;
-      margin-top: 10px;
-    }
-    .btn {
-      appearance: none;
-      border: none;
-      border-radius: 999px;
-      padding: 14px 24px;
-      font-weight: 700;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
-    }
-    .btn:active { transform: scale(0.98) }
-    .btn-yes {
-      background: linear-gradient(135deg, var(--rose), var(--pink));
-      color: #fff;
-      box-shadow: 0 10px 20px rgba(255,77,136,0.35);
-      position: relative;
-      z-index: 2;
-    }
-    .btn-no {
-      background: #f3f4f6;
-      color: #7a2b55;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-      position: absolute;
-      left: 0;
-      top: 0;
-      transition: left 0.12s ease-out, top 0.12s ease-out;
-      z-index: 1;
-    }
-    .celebrate {
-      position: absolute;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(4px);
-      text-align: center;
-      gap: 12px;
-    }
-    .celebrate h2 {
-      margin: 0;
-      font-size: 30px;
-      color: var(--pink);
-    }
-    .celebrate p {
-      margin: 0;
-      font-size: 17px;
-      color: #7a2b55;
-    }
-    .confetti {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .piece {
-      position: absolute;
-      width: 10px;
-      height: 16px;
-      background: var(--pink);
-      opacity: 0.9;
-      border-radius: 3px;
-      transform: translateY(-20vh);
-      animation: fall linear forwards;
-    }
-    @keyframes fall {
-      0% { transform: translateY(-20vh) rotate(0deg) }
-      100% { transform: translateY(120vh) rotate(360deg) }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="hearts" id="hearts"><span class="heart" style="font-size: 28.4585px; left: 41.918vw; animation-duration: 20.4436s; animation-delay: 1.36224s; opacity: 0.21;">♥</span><span class="heart" style="font-size: 31.1349px; left: 42.7636vw; animation-duration: 20.1657s; animation-delay: 6.59131s; opacity: 0.35;">♥</span><span class="heart" style="font-size: 21.3772px; left: 46.3365vw; animation-duration: 19.2669s; animation-delay: 2.71339s; opacity: 0.28;">♥</span><span class="heart" style="font-size: 29.7346px; left: 71.6577vw; animation-duration: 21.7234s; animation-delay: 6.69307s; opacity: 0.27;">♥</span><span class="heart" style="font-size: 23.4248px; left: 51.9773vw; animation-duration: 14.0002s; animation-delay: 6.92209s; opacity: 0.19;">♥</span><span class="heart" style="font-size: 21.1098px; left: 5.88808vw; animation-duration: 21.7221s; animation-delay: 1.44148s; opacity: 0.33;">♥</span><span class="heart" style="font-size: 26.3089px; left: 70.4189vw; animation-duration: 10.8046s; animation-delay: 4.26362s; opacity: 0.26;">♥</span><span class="heart" style="font-size: 28.347px; left: 90.0734vw; animation-duration: 19.9703s; animation-delay: 1.66926s; opacity: 0.24;">♥</span><span class="heart" style="font-size: 31.3232px; left: 86.8106vw; animation-duration: 19.7617s; animation-delay: 2.53788s; opacity: 0.32;">♥</span><span class="heart" style="font-size: 31.828px; left: 84.7959vw; animation-duration: 17.6962s; animation-delay: 5.83096s; opacity: 0.31;">♥</span><span class="heart" style="font-size: 26.179px; left: 34.488vw; animation-duration: 17.8381s; animation-delay: 7.03644s; opacity: 0.33;">♥</span><span class="heart" style="font-size: 21.8202px; left: 71.4545vw; animation-duration: 10.4989s; animation-delay: 0.100153s; opacity: 0.23;">♥</span><span class="heart" style="font-size: 24.6108px; left: 5.60439vw; animation-duration: 13.9683s; animation-delay: 1.53779s; opacity: 0.28;">♥</span><span class="heart" style="font-size: 21.813px; left: 70.3764vw; animation-duration: 19.1239s; animation-delay: 0.727486s; opacity: 0.22;">♥</span><span class="heart" style="font-size: 28.5639px; left: 90.4986vw; animation-duration: 12.1095s; animation-delay: 7.91844s; opacity: 0.21;">♥</span><span class="heart" style="font-size: 32.9589px; left: 0.0661167vw; animation-duration: 15.6139s; animation-delay: 7.92111s; opacity: 0.32;">♥</span><span class="heart" style="font-size: 32.3515px; left: 76.1372vw; animation-duration: 19.5627s; animation-delay: 2.2048s; opacity: 0.31;">♥</span><span class="heart" style="font-size: 27.4608px; left: 60.5512vw; animation-duration: 14.9169s; animation-delay: 1.78884s; opacity: 0.28;">♥</span><span class="heart" style="font-size: 23.2978px; left: 98.2936vw; animation-duration: 19.2014s; animation-delay: 4.99267s; opacity: 0.19;">♥</span><span class="heart" style="font-size: 33.833px; left: 20.667vw; animation-duration: 13.489s; animation-delay: 6.90823s; opacity: 0.3;">♥</span><span class="heart" style="font-size: 24.869px; left: 68.6929vw; animation-duration: 10.3218s; animation-delay: 2.00376s; opacity: 0.25;">♥</span><span class="heart" style="font-size: 32.2011px; left: 69.2127vw; animation-duration: 18.8297s; animation-delay: 4.47654s; opacity: 0.32;">♥</span></div>
-    <div class="header">
-      <div class="heart-logo">♥</div>
-      <div>
-        <div class="headline">For My Love</div>
-        <div style="font-size:13px;color:#7a2b55">Happy Valentine's Day</div>
-      </div>
-    </div>
-    <div class="modal-backdrop" id="backdrop">
-      <div class="modal" id="modal">
-        <h1>Will you be my Valentine?</h1>
-        <p>I picked this page just for you. Choose wisely.</p>
-        <div class="actions" id="actions">
-          <love-ask id="ask"><template shadowrootmode="closed">
-          <style>
-            .wrap { position: relative; width: 100%; height: 100%; }
-            .btn { appearance: none; border: none; border-radius: 999px; padding: 14px 24px; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease; }
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>For My Love</title>
+        <style>
+            :root {
+            --pink: #ff4d88;
+            --rose: #ff6fa1;
+            --soft: #ffe4ec;
+            --bg1: #ff9ec7;
+            --bg2: #ffd0e1;
+            --text: #3b0a2a;
+            --white: #ffffff;
+            }
+            * { box-sizing: border-box }
+            html, body { height: 100% }
+            body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text);
+            background: radial-gradient(1200px 600px at 10% 10%, var(--bg1), transparent) no-repeat,
+                        radial-gradient(1200px 600px at 90% 90%, var(--bg2), transparent) no-repeat,
+                        linear-gradient(180deg, #fff5f9, #ffeaf2 40%, #fff6fa);
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            }
+            .container {
+            position: relative;
+            width: min(900px, 92vw);
+            height: min(680px, 88vh);
+            border-radius: 28px;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 20px 50px rgba(255, 77, 136, 0.25);
+            overflow: hidden;
+            }
+            .header {
+            position: absolute;
+            inset: 24px 24px auto 24px;
+            padding: 20px 22px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.85);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            }
+            .heart-logo {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--rose), var(--pink));
+            color: #fff;
+            font-size: 22px;
+            }
+            .headline {
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.3px;
+            }
+            .subtitle {
+            position: absolute;
+            left: 24px;
+            bottom: 24px;
+            right: 24px;
+            padding: 16px 18px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.75);
+            text-align: center;
+            font-size: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            }
+            .hearts {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            }
+            .heart {
+            position: absolute;
+            color: var(--rose);
+            opacity: 0.2;
+            font-size: 22px;
+            animation: floatUp linear infinite;
+            transform: translateY(100vh);
+            }
+            @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.8) rotate(0deg); opacity: 0 }
+            15% { opacity: 0.3 }
+            50% { opacity: 0.35 }
+            100% { transform: translateY(-20vh) scale(1.1) rotate(12deg); opacity: 0 }
+            }
+            .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(59,10,42,0.15);
+            display: grid;
+            place-items: center;
+            }
+            .modal {
+            width: min(560px, 92vw);
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: 0 30px 70px rgba(59,10,42,0.25);
+            padding: 28px 28px 34px;
+            position: relative;
+            }
+            .modal h1 {
+            margin: 0 0 12px;
+            font-size: 28px;
+            }
+            .modal p {
+            margin: 0 0 22px;
+            font-size: 16px;
+            color: #7a2b55;
+            }
+            .actions {
+            position: relative;
+            height: 110px;
+            margin-top: 10px;
+            }
+            .btn {
+            appearance: none;
+            border: none;
+            border-radius: 999px;
+            padding: 14px 24px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+            }
             .btn:active { transform: scale(0.98) }
-            .btn-yes { background: linear-gradient(135deg, #ff6fa1, #ff4d88); color: #fff; box-shadow: 0 10px 20px rgba(255,77,136,0.35); position: relative; z-index: 2; }
-            .btn-no { background: #f3f4f6; color: #7a2b55; box-shadow: 0 6px 14px rgba(0,0,0,0.08); position: absolute; left: 0; top: 0; z-index: 1; }
-          </style>
-          <div class="wrap">
-            <button class="btn btn-yes">Yes</button>
-            <button class="btn btn-no" style="left: 347.716px; top: 53.2062px; position: absolute; pointer-events: auto;">No</button>
-          </div>
-        </template></love-ask>
+            .btn-yes {
+            background: linear-gradient(135deg, var(--rose), var(--pink));
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(255,77,136,0.35);
+            position: relative;
+            z-index: 2;
+            }
+            .btn-no {
+            background: #f3f4f6;
+            color: #7a2b55;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: left 0.12s ease-out, top 0.12s ease-out;
+            z-index: 1;
+            }
+            .celebrate {
+            position: absolute;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(4px);
+            text-align: center;
+            gap: 12px;
+            }
+            .celebrate h2 {
+            margin: 0;
+            font-size: 30px;
+            color: var(--pink);
+            }
+            .celebrate p {
+            margin: 0;
+            font-size: 17px;
+            color: #7a2b55;
+            }
+            .confetti {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            }
+            .piece {
+            position: absolute;
+            width: 10px;
+            height: 16px;
+            background: var(--pink);
+            opacity: 0.9;
+            border-radius: 3px;
+            transform: translateY(-20vh);
+            animation: fall linear forwards;
+            }
+            @keyframes fall {
+            0% { transform: translateY(-20vh) rotate(0deg) }
+            100% { transform: translateY(120vh) rotate(360deg) }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="hearts" id="hearts"><span class="heart" style="font-size: 28.4585px; left: 41.918vw; animation-duration: 20.4436s; animation-delay: 1.36224s; opacity: 0.21;">♥</span><span class="heart" style="font-size: 31.1349px; left: 42.7636vw; animation-duration: 20.1657s; animation-delay: 6.59131s; opacity: 0.35;">♥</span><span class="heart" style="font-size: 21.3772px; left: 46.3365vw; animation-duration: 19.2669s; animation-delay: 2.71339s; opacity: 0.28;">♥</span><span class="heart" style="font-size: 29.7346px; left: 71.6577vw; animation-duration: 21.7234s; animation-delay: 6.69307s; opacity: 0.27;">♥</span><span class="heart" style="font-size: 23.4248px; left: 51.9773vw; animation-duration: 14.0002s; animation-delay: 6.92209s; opacity: 0.19;">♥</span><span class="heart" style="font-size: 21.1098px; left: 5.88808vw; animation-duration: 21.7221s; animation-delay: 1.44148s; opacity: 0.33;">♥</span><span class="heart" style="font-size: 26.3089px; left: 70.4189vw; animation-duration: 10.8046s; animation-delay: 4.26362s; opacity: 0.26;">♥</span><span class="heart" style="font-size: 28.347px; left: 90.0734vw; animation-duration: 19.9703s; animation-delay: 1.66926s; opacity: 0.24;">♥</span><span class="heart" style="font-size: 31.3232px; left: 86.8106vw; animation-duration: 19.7617s; animation-delay: 2.53788s; opacity: 0.32;">♥</span><span class="heart" style="font-size: 31.828px; left: 84.7959vw; animation-duration: 17.6962s; animation-delay: 5.83096s; opacity: 0.31;">♥</span><span class="heart" style="font-size: 26.179px; left: 34.488vw; animation-duration: 17.8381s; animation-delay: 7.03644s; opacity: 0.33;">♥</span><span class="heart" style="font-size: 21.8202px; left: 71.4545vw; animation-duration: 10.4989s; animation-delay: 0.100153s; opacity: 0.23;">♥</span><span class="heart" style="font-size: 24.6108px; left: 5.60439vw; animation-duration: 13.9683s; animation-delay: 1.53779s; opacity: 0.28;">♥</span><span class="heart" style="font-size: 21.813px; left: 70.3764vw; animation-duration: 19.1239s; animation-delay: 0.727486s; opacity: 0.22;">♥</span><span class="heart" style="font-size: 28.5639px; left: 90.4986vw; animation-duration: 12.1095s; animation-delay: 7.91844s; opacity: 0.21;">♥</span><span class="heart" style="font-size: 32.9589px; left: 0.0661167vw; animation-duration: 15.6139s; animation-delay: 7.92111s; opacity: 0.32;">♥</span><span class="heart" style="font-size: 32.3515px; left: 76.1372vw; animation-duration: 19.5627s; animation-delay: 2.2048s; opacity: 0.31;">♥</span><span class="heart" style="font-size: 27.4608px; left: 60.5512vw; animation-duration: 14.9169s; animation-delay: 1.78884s; opacity: 0.28;">♥</span><span class="heart" style="font-size: 23.2978px; left: 98.2936vw; animation-duration: 19.2014s; animation-delay: 4.99267s; opacity: 0.19;">♥</span><span class="heart" style="font-size: 33.833px; left: 20.667vw; animation-duration: 13.489s; animation-delay: 6.90823s; opacity: 0.3;">♥</span><span class="heart" style="font-size: 24.869px; left: 68.6929vw; animation-duration: 10.3218s; animation-delay: 2.00376s; opacity: 0.25;">♥</span><span class="heart" style="font-size: 32.2011px; left: 69.2127vw; animation-duration: 18.8297s; animation-delay: 4.47654s; opacity: 0.32;">♥</span></div>
+            <div class="header">
+            <div class="heart-logo">♥</div>
+            <div>
+                <div class="headline">For My Love</div>
+                <div style="font-size:13px;color:#7a2b55">Happy Valentine's Day</div>
+            </div>
+            </div>
+            <div class="modal-backdrop" id="backdrop">
+            <div class="modal" id="modal">
+                <h1>Khushboo Will you be my Valentine?</h1>
+                <p>I picked this page just for you. Choose wisely.</p>
+                <div class="actions" id="actions">
+                <love-ask id="ask"><template shadowrootmode="closed">
+                <style>
+                    .wrap { position: relative; width: 100%; height: 100%; }
+                    .btn { appearance: none; border: none; border-radius: 999px; padding: 14px 24px; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease; }
+                    .btn:active { transform: scale(0.98) }
+                    .btn-yes { background: linear-gradient(135deg, #ff6fa1, #ff4d88); color: #fff; box-shadow: 0 10px 20px rgba(255,77,136,0.35); position: relative; z-index: 2; }
+                    .btn-no { background: #f3f4f6; color: #7a2b55; box-shadow: 0 6px 14px rgba(0,0,0,0.08); position: absolute; left: 0; top: 0; z-index: 1; }
+                </style>
+                <div class="wrap">
+                    <button class="btn btn-yes">Yes</button>
+                    <button class="btn btn-no" style="left: 347.716px; top: 53.2062px; position: absolute; pointer-events: auto;">No</button>
+                </div>
+                </template></love-ask>
+                </div>
+            </div>
+            </div>
+            <div class="celebrate" id="celebrate">
+            <h2>Yes! You are my Valentine ❤️ Khushboo Ji</h2>
+            <p>Now and always. I love you ❤️ Khushboo Ji</p>
+            </div>
+            <div class="subtitle">Every heartbeat spells your name.</div>
         </div>
-      </div>
-    </div>
-    <div class="celebrate" id="celebrate">
-      <h2>Yes! You are my Valentine ❤️</h2>
-      <p>Now and always. I love you.</p>
-    </div>
-    <div class="subtitle">Every heartbeat spells your name.</div>
-  </div>
-  <div class="confetti" id="confetti"></div>
-  <script>
-    const hearts = document.getElementById('hearts');
-    const backdrop = document.getElementById('backdrop');
-    const modal = document.getElementById('modal');
-    const actions = document.getElementById('actions');
-    const celebrate = document.getElementById('celebrate');
-    const confetti = document.getElementById('confetti');
+        <div class="confetti" id="confetti"></div>
+        <script>
+            const hearts = document.getElementById('hearts');
+            const backdrop = document.getElementById('backdrop');
+            const modal = document.getElementById('modal');
+            const actions = document.getElementById('actions');
+            const celebrate = document.getElementById('celebrate');
+            const confetti = document.getElementById('confetti');
 
-    for (let i = 0; i < 22; i++) {
-      const s = document.createElement('span');
-      s.className = 'heart';
-      s.textContent = '♥';
-      const size = 18 + Math.random() * 16;
-      const left = Math.random() * 100;
-      const duration = 10 + Math.random() * 12;
-      const delay = Math.random() * 8;
-      s.style.fontSize = size + 'px';
-      s.style.left = left + 'vw';
-      s.style.animationDuration = duration + 's';
-      s.style.animationDelay = delay + 's';
-      s.style.opacity = (0.18 + Math.random() * 0.17).toFixed(2);
-      hearts.appendChild(s);
-    }
+            for (let i = 0; i < 22; i++) {
+            const s = document.createElement('span');
+            s.className = 'heart';
+            s.textContent = '♥';
+            const size = 18 + Math.random() * 16;
+            const left = Math.random() * 100;
+            const duration = 10 + Math.random() * 12;
+            const delay = Math.random() * 8;
+            s.style.fontSize = size + 'px';
+            s.style.left = left + 'vw';
+            s.style.animationDuration = duration + 's';
+            s.style.animationDelay = delay + 's';
+            s.style.opacity = (0.18 + Math.random() * 0.17).toFixed(2);
+            hearts.appendChild(s);
+            }
 
-    class LoveAsk extends HTMLElement {
-      constructor() {
-        super();
-        const root = this.attachShadow({ mode: 'closed' });
-        root.innerHTML = `
-          <style>
-            .wrap { position: relative; width: 100%; height: 100%; }
-            .btn { appearance: none; border: none; border-radius: 999px; padding: 14px 24px; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease; }
-            .btn:active { transform: scale(0.98) }
-            .btn-yes { background: linear-gradient(135deg, #ff6fa1, #ff4d88); color: #fff; box-shadow: 0 10px 20px rgba(255,77,136,0.35); position: relative; z-index: 2; }
-            .btn-no { background: #f3f4f6; color: #7a2b55; box-shadow: 0 6px 14px rgba(0,0,0,0.08); position: absolute; left: 0; top: 0; z-index: 1; }
-          </style>
-          <div class="wrap">
-            <button class="btn btn-yes">Yes</button>
-            <button class="btn btn-no">No</button>
-          </div>
-        `;
-        const wrap = root.querySelector('.wrap');
-        const yes = root.querySelector('.btn-yes');
-        const no = root.querySelector('.btn-no');
-        const state = { x: 0, y: 0, tx: 0, ty: 0 };
-        const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-        const lerp = (a, b, t) => a + (b - a) * t;
-        const placeRandom = () => {
-          const a = wrap.getBoundingClientRect();
-          const n = no.getBoundingClientRect();
-          const maxX = a.width - n.width - 8;
-          const maxY = a.height - n.height - 8;
-          state.x = Math.random() * maxX;
-          state.y = Math.random() * maxY;
-          state.tx = state.x;
-          state.ty = state.y;
-          no.style.left = state.x + 'px';
-          no.style.top = state.y + 'px';
-        };
-        const pushAway = (px, py, factor=1) => {
-          const a = wrap.getBoundingClientRect();
-          const n = no.getBoundingClientRect();
-          const cx = a.left + state.x + n.width/2;
-          const cy = a.top + state.y + n.height/2;
-          const dx = px - cx;
-          const dy = py - cy;
-          const dist = Math.hypot(dx, dy);
-          const radius = 130;
-          if (dist < radius) {
-            const nx = -dx / (dist || 1);
-            const ny = -dy / (dist || 1);
-            const push = (radius - dist) * 0.9 + 40;
-            const maxX = a.width - n.width - 8;
-            const maxY = a.height - n.height - 8;
-            state.tx = clamp(state.x + nx * push * factor + (Math.random()-0.5)*12, 0, maxX);
-            state.ty = clamp(state.y + ny * push * factor + (Math.random()-0.5)*12, 0, maxY);
-          }
-        };
-        const animate = () => {
-          state.x = lerp(state.x, state.tx, 0.22);
-          state.y = lerp(state.y, state.ty, 0.22);
-          no.style.position = 'absolute';
-          no.style.pointerEvents = 'auto';
-          no.style.left = state.x + 'px';
-          no.style.top = state.y + 'px';
-          const a = wrap.getBoundingClientRect();
-          const n = no.getBoundingClientRect();
-          const maxX = a.width - n.width - 8;
-          const maxY = a.height - n.height - 8;
-          const nearL = state.x < 6;
-          const nearR = state.x > maxX - 6;
-          const nearT = state.y < 6;
-          const nearB = state.y > maxY - 6;
-          if ((nearL && nearT) || (nearR && nearT) || (nearL && nearB) || (nearR && nearB)) {
-            placeRandom();
-          }
-          requestAnimationFrame(animate);
-        };
-        const m = new MutationObserver(() => {
-          no.style.position = 'absolute';
-          no.style.pointerEvents = 'auto';
-        });
-        m.observe(no, { attributes: true, attributeFilter: ['style', 'class'] });
-        placeRandom();
-        animate();
-        wrap.addEventListener('mousemove', e => pushAway(e.clientX, e.clientY, 1));
-        no.addEventListener('mouseenter', e => pushAway(e.clientX, e.clientY, 1.4));
-        no.addEventListener('mousemove', e => pushAway(e.clientX, e.clientY, 1.2));
-        no.addEventListener('mousedown', e => { e.preventDefault(); pushAway(e.clientX, e.clientY, 1.6); });
-        no.addEventListener('click', e => { e.preventDefault(); pushAway(e.clientX, e.clientY, 1.8); });
-        yes.addEventListener('click', () => {
-          this.dispatchEvent(new CustomEvent('valentine-yes', { bubbles: true, composed: true }));
-        });
-      }
-    }
-    customElements.define('love-ask', LoveAsk);
+            class LoveAsk extends HTMLElement {
+            constructor() {
+                super();
+                const root = this.attachShadow({ mode: 'closed' });
+                root.innerHTML = `
+                <style>
+                    .wrap { position: relative; width: 100%; height: 100%; }
+                    .btn { appearance: none; border: none; border-radius: 999px; padding: 14px 24px; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease; }
+                    .btn:active { transform: scale(0.98) }
+                    .btn-yes { background: linear-gradient(135deg, #ff6fa1, #ff4d88); color: #fff; box-shadow: 0 10px 20px rgba(255,77,136,0.35); position: relative; z-index: 2; }
+                    .btn-no { background: #f3f4f6; color: #7a2b55; box-shadow: 0 6px 14px rgba(0,0,0,0.08); position: absolute; left: 0; top: 0; z-index: 1; }
+                </style>
+                <div class="wrap">
+                    <button class="btn btn-yes">Yes</button>
+                    <button class="btn btn-no">No</button>
+                </div>
+                `;
+                const wrap = root.querySelector('.wrap');
+                const yes = root.querySelector('.btn-yes');
+                const no = root.querySelector('.btn-no');
+                const state = { x: 0, y: 0, tx: 0, ty: 0 };
+                const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+                const lerp = (a, b, t) => a + (b - a) * t;
+                const placeRandom = () => {
+                const a = wrap.getBoundingClientRect();
+                const n = no.getBoundingClientRect();
+                const maxX = a.width - n.width - 8;
+                const maxY = a.height - n.height - 8;
+                state.x = Math.random() * maxX;
+                state.y = Math.random() * maxY;
+                state.tx = state.x;
+                state.ty = state.y;
+                no.style.left = state.x + 'px';
+                no.style.top = state.y + 'px';
+                };
+                const pushAway = (px, py, factor=1) => {
+                const a = wrap.getBoundingClientRect();
+                const n = no.getBoundingClientRect();
+                const cx = a.left + state.x + n.width/2;
+                const cy = a.top + state.y + n.height/2;
+                const dx = px - cx;
+                const dy = py - cy;
+                const dist = Math.hypot(dx, dy);
+                const radius = 130;
+                if (dist < radius) {
+                    const nx = -dx / (dist || 1);
+                    const ny = -dy / (dist || 1);
+                    const push = (radius - dist) * 0.9 + 40;
+                    const maxX = a.width - n.width - 8;
+                    const maxY = a.height - n.height - 8;
+                    state.tx = clamp(state.x + nx * push * factor + (Math.random()-0.5)*12, 0, maxX);
+                    state.ty = clamp(state.y + ny * push * factor + (Math.random()-0.5)*12, 0, maxY);
+                }
+                };
+                const animate = () => {
+                state.x = lerp(state.x, state.tx, 0.22);
+                state.y = lerp(state.y, state.ty, 0.22);
+                no.style.position = 'absolute';
+                no.style.pointerEvents = 'auto';
+                no.style.left = state.x + 'px';
+                no.style.top = state.y + 'px';
+                const a = wrap.getBoundingClientRect();
+                const n = no.getBoundingClientRect();
+                const maxX = a.width - n.width - 8;
+                const maxY = a.height - n.height - 8;
+                const nearL = state.x < 6;
+                const nearR = state.x > maxX - 6;
+                const nearT = state.y < 6;
+                const nearB = state.y > maxY - 6;
+                if ((nearL && nearT) || (nearR && nearT) || (nearL && nearB) || (nearR && nearB)) {
+                    placeRandom();
+                }
+                requestAnimationFrame(animate);
+                };
+                const m = new MutationObserver(() => {
+                no.style.position = 'absolute';
+                no.style.pointerEvents = 'auto';
+                });
+                m.observe(no, { attributes: true, attributeFilter: ['style', 'class'] });
+                placeRandom();
+                animate();
+                wrap.addEventListener('mousemove', e => pushAway(e.clientX, e.clientY, 1));
+                no.addEventListener('mouseenter', e => pushAway(e.clientX, e.clientY, 1.4));
+                no.addEventListener('mousemove', e => pushAway(e.clientX, e.clientY, 1.2));
+                no.addEventListener('mousedown', e => { e.preventDefault(); pushAway(e.clientX, e.clientY, 1.6); });
+                no.addEventListener('click', e => { e.preventDefault(); pushAway(e.clientX, e.clientY, 1.8); });
+                yes.addEventListener('click', () => {
+                this.dispatchEvent(new CustomEvent('valentine-yes', { bubbles: true, composed: true }));
+                });
+            }
+            }
+            customElements.define('love-ask', LoveAsk);
 
-    document.addEventListener('valentine-yes', () => {
-      backdrop.style.display = 'none';
-      celebrate.style.display = 'flex';
-      launchConfetti();
-    });
+            document.addEventListener('valentine-yes', () => {
+            backdrop.style.display = 'none';
+            celebrate.style.display = 'flex';
+            launchConfetti();
+            });
 
-    function launchConfetti() {
-      const colors = ['#ff4d88', '#ff6fa1', '#ffd0e1', '#ff9ec7', '#ffe4ec'];
-      const pieces = 100;
-      for (let i = 0; i < pieces; i++) {
-        const p = document.createElement('div');
-        p.className = 'piece';
-        p.style.left = Math.random() * 100 + 'vw';
-        p.style.animationDuration = 2.8 + Math.random() * 3.4 + 's';
-        p.style.animationDelay = Math.random() * 0.6 + 's';
-        p.style.background = colors[Math.floor(Math.random() * colors.length)];
-        p.style.transform = 'translateY(-20vh) rotate(' + (Math.random() * 360) + 'deg)';
-        confetti.appendChild(p);
-        setTimeout(() => p.remove(), 7000);
-      }
-    }
-  </script>
-
-
-</body></html>
+            function launchConfetti() {
+            const colors = ['#ff4d88', '#ff6fa1', '#ffd0e1', '#ff9ec7', '#ffe4ec'];
+            const pieces = 100;
+            for (let i = 0; i < pieces; i++) {
+                const p = document.createElement('div');
+                p.className = 'piece';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.animationDuration = 2.8 + Math.random() * 3.4 + 's';
+                p.style.animationDelay = Math.random() * 0.6 + 's';
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.transform = 'translateY(-20vh) rotate(' + (Math.random() * 360) + 'deg)';
+                confetti.appendChild(p);
+                setTimeout(() => p.remove(), 7000);
+            }
+            }
+        </script>
+    </body>
+</html>
 
